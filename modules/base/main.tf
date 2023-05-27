@@ -15,3 +15,6 @@ module "eks" {
   subnet_ids   = module.vpc.private_subnet_id
 }
 
+module "ecr" {
+  source = "../../modules/ecr"
+}

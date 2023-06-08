@@ -6,7 +6,6 @@ variable "region" {
   default = "us-east-1"
 }
 
-
 locals {
   cluster_name = "eks-cluster"
 }

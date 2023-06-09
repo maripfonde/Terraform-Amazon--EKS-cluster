@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: 2048-deployment
+  name: {{ .Values.deployment.name }}
   labels:
-    app: myapp
+    app: {{ .Values.deployment.app }}
 spec:
-  replicas: 3
+  replicas: {{ .Values.deployment.replicas }}
   selector:
     matchLabels:
-      app: myapp
+      app: {{ .Values.deployment.app }}
   template:
     metadata:
       labels:
-        app: myapp
+        app: {{ .Values.deployment.app }}
     spec:
       containers:
-      - name: myapp
-        image: 33443441290.dkr.ecr.us-east-1.amazonaws.com/app-repository:latest
-        ports:
-        - containerPort: 80
+        - name: {{ .Values.deployment.app }}
+          image: {{ .Values.deployment.image.repository }}:{{ .Values.deployment.image.tag }}
+          ports:
+            - containerPort: 80

@@ -1,0 +1,19 @@
+# overlays/dev/kustomization.yaml
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namePrefix: prod-
+namespace: prod
+
+resources:
+- ../../base
+- namespace.yaml
+- hpa.yaml
+
+patches:
+- target:
+    kind: Deployment
+    name: app-2048
+  patch: |-
+    - op: replace
+      path: /spec/replicas
+      value: 3

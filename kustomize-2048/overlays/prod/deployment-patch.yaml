@@ -10,10 +10,10 @@ spec:
         image: 387738881290.dkr.ecr.us-east-1.amazonaws.com/app-repository:latest
         resources:
           requests:
-            memory: "512Mi"
-            cpu: 0.5
+            memory: "1Gi"
+            cpu: 1
           limits:
-            memory: "512Mi"
-            cpu: 0.5
+            memory: "1Gi"
+            cpu: 1
         securityContext:
           allowPrivilegeEscalation: false

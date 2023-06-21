@@ -2,6 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: app-2048
+  labels:
+    app: app-2048
+    cost-center: common
 spec:
   replicas: 3
   selector:
@@ -11,9 +14,10 @@ spec:
     metadata:
       labels:
         app: app-2048
+        cost-center: common
     spec:
       containers:
       - name: app-2048
-        image: 387738881290.dkr.ecr.us-east-1.amazonaws.com/app-repository
+        image: 387738881290.dkr.ecr.us-east-1.amazonaws.com/app-repository:latest
         ports:
         - containerPort: 80

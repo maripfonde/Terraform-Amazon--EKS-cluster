@@ -1,8 +1,8 @@
 provider "helm" {
   kubernetes {
-    host                   = data.aws_eks_cluster.default.endpoint
-    cluster_ca_certificate = base64decode(data.aws_eks_cluster.default.certificate_authority.0.data)
-    token                  = data.aws_eks_cluster_auth.default.token
+    host                   = var.cluster_endpoint
+    cluster_ca_certificate = var.certificate_authority
+    token                  = var.token
   }
 }
 
@@ -13,3 +13,4 @@ resource "helm_release" "game-2048" {
   chart     = "${path.module}/helm/game-2048"
   values    =  [file("${path.module}/helm/game-2048/values.yaml")]
 }
+

@@ -1,0 +1,13 @@
+deployment:
+  name: 2048-deployment
+  app: myapp
+  replicas: 3
+  image:
+    repository: 387738881290.dkr.ecr.us-east-1.amazonaws.com/app-repository
+    tag: latest
+service:
+  name: myapp-service
+  type: LoadBalancer
+  port: 80
+  selector:
+    app: myapp

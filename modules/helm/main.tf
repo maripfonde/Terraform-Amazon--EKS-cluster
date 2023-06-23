@@ -13,4 +13,3 @@ resource "helm_release" "game-2048" {
   chart     = "${path.module}/helm/game-2048"
   values    =  [file("${path.module}/helm/game-2048/values.yaml")]
 }
-

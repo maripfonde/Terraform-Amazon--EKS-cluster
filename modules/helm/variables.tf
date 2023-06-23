@@ -13,3 +13,9 @@ locals {
 variable "cluster_name" {
   default = "eks-cluster"
 }
+
+variable "cluster_endpoint" {}
+
+variable "token" {}
+
+variable "certificate_authority" {}

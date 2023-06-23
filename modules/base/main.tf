@@ -18,3 +18,11 @@ module "eks" {
 module "ecr" {
   source = "../../modules/ecr"
 }
+
+module "helm" {
+  source = "../../modules/helm"
+
+  cluster_endpoint = module.eks.cluster_endpoint
+  certificate_authority = base64decode(module.eks.certificate_authority_data)
+  token = module.eks.token
+}

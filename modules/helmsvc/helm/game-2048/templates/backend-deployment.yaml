@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backend.name }}
+  labels:
+    app: {{ .Values.backend.app }}
+    tier: {{ .Values.backend.tier }} 
+spec:
+  replicas: {{ .Values.backend.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.backend.app }}
+      tier: {{ .Values.backend.tier }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.backend.app }}
+        tier: {{ .Values.backend.tier }}
+    spec:
+      serviceAccountName: {{ .Values.backend.serviceAccountName }}
+      containers:
+        - name: {{ .Values.backend.image.name }}
+          image: {{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}
+          ports:
+            - containerPort: 8080

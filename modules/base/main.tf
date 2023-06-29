@@ -19,10 +19,10 @@ module "ecr" {
   source = "../../modules/ecr"
 }
 
-module "helm" {
-  source = "../../modules/helm"
+module "helmsvc" {
+  source = "../../modules/helmsvc"
 
-  cluster_endpoint = module.eks.cluster_endpoint
+  cluster_endpoint      = module.eks.cluster_endpoint
   certificate_authority = base64decode(module.eks.certificate_authority_data)
-  token = module.eks.token
+  token                 = module.eks.token
 }

@@ -62,3 +62,27 @@ resource "aws_iam_role_policy_attachment" "cloudwatch_agent_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
   role       = aws_iam_role.eks_node_group_role.name
 }
+
+#frontend-role
+resource "aws_iam_role" "frontend_role" {
+  name = "frontend-role"
+
+  assume_role_policy = templatefile("${path.module}/../policies/oidc_assume_role_policy.json", { OIDC_ARN = aws_iam_openid_connect_provider.my_oidc_provider.arn, OIDC_URL = replace(aws_iam_openid_connect_provider.my_oidc_provider.url, "https://", ""), NAMESPACE = "${var.namespace}", SA_NAME = "frontend-service-account" })
+}
+
+resource "aws_iam_role_policy_attachment" "s3_policy_attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+  role       = aws_iam_role.frontend_role.name
+}
+
+#backend-role
+resource "aws_iam_role" "backend_role" {
+  name = "backend-role"
+
+  assume_role_policy = templatefile("${path.module}/../policies/oidc_assume_role_policy.json", { OIDC_ARN = aws_iam_openid_connect_provider.my_oidc_provider.arn, OIDC_URL = replace(aws_iam_openid_connect_provider.my_oidc_provider.url, "https://", ""), NAMESPACE = "${var.namespace}", SA_NAME = "backend-service-account" })
+}
+
+resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+  role       = aws_iam_role.backend_role.name
+}

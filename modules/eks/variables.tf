@@ -12,3 +12,24 @@ variable "node_group_name" {
 locals {
   cluster_name = "eks-cluster"
 }
+
+variable "region" {
+  default = "us-east-1"
+}
+
+variable "namespace" {
+  default = "default"
+}
+
+variable "oidc_thumbprint_list" {
+  type    = list(string)
+  default = []
+}
+
+variable "service_account" {
+  default = "frontend-service-account"
+}
+
+variable "account_id" {
+  default = "387738881290"
+}

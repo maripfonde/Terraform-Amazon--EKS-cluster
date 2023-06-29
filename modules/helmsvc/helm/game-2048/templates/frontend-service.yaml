@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.frontend.service.name }}
+spec:
+  selector:
+    app: {{ .Values.frontend.service.selector.app }}
+    tier: {{ .Values.frontend.service.selector.tier }}
+  ports:
+  - name: http
+    port: {{ .Values.frontend.service.port }}
+    targetPort: {{ .Values.frontend.service.port }}
+  type: {{ .Values.frontend.service.type }}

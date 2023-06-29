@@ -1,0 +1,4 @@
+apiVersion: v2
+name: game-2048
+description: A helm chart to deploy the 2048 app
+version: 0.0.1

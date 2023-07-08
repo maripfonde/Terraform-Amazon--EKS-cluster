@@ -1,7 +1,7 @@
 frontend:
   name: 2048-frontend-deployment
-  app: myapp
-  tier: frontend
+  app: "myapp"
+  tier: "frontend"
   replicas: 3
   image:
     repository: 387738881290.dkr.ecr.us-east-1.amazonaws.com/ubuntu
@@ -11,16 +11,16 @@ frontend:
     type: LoadBalancer
     port: 80
     selector:
-      app: myapp
-      tier: frontend
+      app: "myapp"
+      tier: "frontend"
   serviceAccountName: frontend-service-account
   securityContext:
     readOnlyRootFilesystem: true
 
 backend:
   name: 2048-backend-deployment
-  app: myapp
-  tier: backend
+  app: "myapp"
+  tier: "backend"
   replicas: 3
   image:
     name: myappbackend
@@ -32,8 +32,8 @@ backend:
     port: 8080
     protocol: TCP
     selector:
-      app: myapp
-      tier: backend
+      app: "myapp"
+      tier: "backend"
   serviceAccountName: backend-service-account
   securityContext:
     readOnlyRootFilesystem: true

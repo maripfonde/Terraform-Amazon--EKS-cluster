@@ -1,0 +1,20 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Action": [
+            "route53:ChangeResourceRecordSets",
+            "route53:ListHostedZones",
+            "route53:ListResourceRecordSets",
+            "route53:ListReusableDelegationSets"
+        ],
+        "Resource": [
+          "arn:aws:route53:::hostedzone/*",
+          "arn:aws:route53:::change/*",
+          "arn:aws:route53:::delegationset/*"
+        ]
+      }
+    ]
+  }
+  

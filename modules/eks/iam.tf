@@ -86,3 +86,49 @@ resource "aws_iam_role_policy_attachment" "dynamodb_policy_attachment" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
   role       = aws_iam_role.backend_role.name
 }
+
+
+#lb controller role
+resource "aws_iam_policy" "lb_policy" {
+  name        = "AWSLoadBalancerControllerIAMPolicy"
+  policy      = "${file("${path.module}/../policies/iam_policy.json")}"
+}
+
+resource "aws_iam_role" "lb_controller" {
+  name = "aws-load-balancer-controller-role"
+
+  assume_role_policy = templatefile("${path.module}/../policies/oidc_assume_role_policy.json", { OIDC_ARN = aws_iam_openid_connect_provider.my_oidc_provider.arn, OIDC_URL = replace(aws_iam_openid_connect_provider.my_oidc_provider.url, "https://", ""), NAMESPACE = "kube-system", SA_NAME = "aws-load-balancer-controller" })
+}
+
+resource "aws_iam_role_policy_attachment" "lb_policy_attachment" {
+  policy_arn  = aws_iam_policy.lb_policy.arn
+  role        = aws_iam_role.lb_controller.name
+}
+
+#vpc cni
+resource "aws_iam_role" "vpc_cni" {
+  name               = "vpc-cni-role"
+  assume_role_policy = templatefile("${path.module}/../policies/oidc_assume_role_policy.json", { OIDC_ARN = aws_iam_openid_connect_provider.my_oidc_provider.arn, OIDC_URL = replace(aws_iam_openid_connect_provider.my_oidc_provider.url, "https://", ""), NAMESPACE = "kube-system", SA_NAME = "aws-node" })
+}
+
+resource "aws_iam_role_policy_attachment" "cni_policy_attachment" {
+  policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy"
+  role       = aws_iam_role.vpc_cni.name
+}
+
+#external dns
+resource "aws_iam_policy" "dns_policy" {
+  name        = "ExternalDNSIAMPolicy"
+  policy      = "${file("${path.module}/../policies/external-dns-policy.json")}"
+}
+
+resource "aws_iam_role" "external_dns" {
+  name = "external-dns-role"
+
+  assume_role_policy = templatefile("${path.module}/../policies/oidc_assume_role_policy.json", { OIDC_ARN = aws_iam_openid_connect_provider.my_oidc_provider.arn, OIDC_URL = replace(aws_iam_openid_connect_provider.my_oidc_provider.url, "https://", ""), NAMESPACE = "default", SA_NAME = "external-dns" })
+}
+
+resource "aws_iam_role_policy_attachment" "dns_policy_attachment" {
+  policy_arn  = aws_iam_policy.dns_policy.arn
+  role        = aws_iam_role.external_dns.name
+}

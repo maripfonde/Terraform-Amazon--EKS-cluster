@@ -17,6 +17,12 @@ resource "aws_security_group" "eks_node_group_sg" {
     protocol  = "tcp"
   }
 
+  ingress {
+  from_port = 9443
+  to_port   = 9443
+  protocol  = "tcp"
+}
+
   egress {
     from_port = 0
     to_port   = 0

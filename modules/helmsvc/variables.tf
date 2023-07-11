@@ -19,3 +19,13 @@ variable "cluster_endpoint" {}
 variable "token" {}
 
 variable "certificate_authority" {}
+
+variable "domain_name" {
+  default = "lawrencecloudlab.com"
+  type    = string
+}
+
+variable "record_name" {
+  default = "www"
+  type    = string
+}

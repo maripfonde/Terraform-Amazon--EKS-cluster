@@ -8,6 +8,7 @@ spec:
     tier: {{ .Values.frontend.service.selector.tier }}
   ports:
   - name: http
+    protocol: TCP
     port: {{ .Values.frontend.service.port }}
     targetPort: {{ .Values.frontend.service.port }}
-  type: {{ .Values.frontend.service.type }}
+  type: ClusterIP

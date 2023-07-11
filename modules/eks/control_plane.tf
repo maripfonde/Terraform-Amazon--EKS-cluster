@@ -38,3 +38,17 @@ resource "aws_eks_identity_provider_config" "example" {
     issuer_url                    = "https://${aws_iam_openid_connect_provider.my_oidc_provider.url}"
   }
 }
+
+# Enable the AWS VPC CNI addon
+resource "aws_eks_addon" "vpc_cni" {
+  cluster_name = local.cluster_name
+  addon_name   = "vpc-cni"
+
+
+  service_account_role_arn = aws_iam_role.vpc_cni.arn
+
+  tags = {
+    Terraform   = "true"
+    Environment = "prod"
+  }
+}

@@ -68,20 +68,10 @@ resource "kubernetes_ingress_v1" "frontend_ingress" {
   metadata {
     name = "frontend-ingress"
     annotations = {
-      "kubernetes.io/ingress.class"                    = "alb"
-      "alb.ingress.kubernetes.io/target-type"          = "ip"
-      "kubernetes.io/tls-acme"                         = "true"
-      "alb.ingress.kubernetes.io/scheme"               = "internet-facing"
-      "alb.ingress.kubernetes.io/certificate-arn"      = aws_acm_certificate.main.arn
-      "alb.ingress.kubernetes.io/listen-ports"         = jsonencode([{"HTTP": 80}, {"HTTPS":443}])
-      "alb.ingress.kubernetes.io/actions.ssl-redirect" = jsonencode([{
-        "Type"            = "redirect"
-        "RedirectConfig"  = {
-          "Protocol"     = "HTTPS"
-          "Port"         = "443"
-          "StatusCode"   = "HTTP_301"
-        }
-      }])
+      "kubernetes.io/ingress.class"                    = "nginx"
+      "nginx.ingress.kubernetes.io/rewrite-target"     = "/"
+      "nginx.ingress.kubernetes.io/ssl-redirect"       = "true"
+      "nginx.ingress.kubernetes.io/backend-protocol"   = "HTTPS"
     }
   }
   spec {

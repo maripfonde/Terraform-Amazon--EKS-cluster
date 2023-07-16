@@ -1,7 +1,7 @@
 
 
 data "aws_route53_zone" "hosted_zone" {
-  name = var.domain_name
+  name = "lawrencecloudlab.com"
 }
 
 data "aws_elb_hosted_zone_id" "this" {}
@@ -9,7 +9,7 @@ data "aws_elb_hosted_zone_id" "this" {}
 resource "aws_route53_record" "ingress" {
   zone_id = data.aws_route53_zone.hosted_zone.zone_id
 
-  name = "www.${var.domain_name}"
+  name = var.domain_name
   type = "A"
 
   alias {
@@ -19,7 +19,7 @@ resource "aws_route53_record" "ingress" {
   }
 }
 
-resource "aws_route53_record" "ingress2" {
+/*resource "aws_route53_record" "ingress2" {
   zone_id = data.aws_route53_zone.hosted_zone.zone_id
 
   name = var.domain_name
@@ -30,7 +30,7 @@ resource "aws_route53_record" "ingress2" {
     name                   = kubernetes_service_v1.ingress.status.0.load_balancer.0.ingress.0.hostname
     zone_id                = data.aws_elb_hosted_zone_id.this.id
   }
-}
+}*/
 
 
 resource "kubernetes_service_v1" "ingress" {
@@ -89,13 +89,13 @@ resource "kubernetes_ingress_v1" "frontend_ingress" {
       host = var.domain_name
       http {
         path {
-          path = "/*"
+          path = "/"
           path_type = "Prefix"
           backend {
             service {
               name = kubernetes_service_v1.ingress.metadata.0.name
               port {
-                number   = 443
+                number   = 80
               }
             }
           }

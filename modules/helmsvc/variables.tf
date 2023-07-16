@@ -21,7 +21,7 @@ variable "token" {}
 variable "certificate_authority" {}
 
 variable "domain_name" {
-  default = "lawrencecloudlab.com"
+  default = "www.lawrencecloudlab.com"
   type    = string
 }
 
